@@ -44,4 +44,3 @@ class FAQBot:
             self.history.messages = [] # if no initial log file, remain as empty list
         except json.JSONDecodeError as e:
             print("Error:", e)
-        return None

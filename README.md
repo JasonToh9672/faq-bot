@@ -8,6 +8,7 @@ A terminal chatbot that answers user questions using a FAQ file.
 - Shows the full chat history and the total message count when the user types "quit"
 - Saves every message to `log.json` with its time, role, and content
 - Coloured terminal output using the `rich` library
+- Remembers previous conversations by loading `log.json` when the bot starts
 
 ## How to run
 
@@ -40,3 +41,4 @@ python main.py
 
 - How to split code into module files and import them
 - That keyword matching is weak because it matches text inside words, not whole words (e.g. “bug” also matches “ladybug”)
+- How to save and load data with JSON instead of plain text, so it can be read back as Python dicts
