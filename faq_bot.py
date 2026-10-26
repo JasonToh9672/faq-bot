@@ -33,4 +33,4 @@ class FAQBot:
     def save_log(self, path):
         with open(path, "w", encoding="utf-8") as f:
             for msg in self.history.messages:
-                f.write(f"[{msg['time']}]:{msg['role']}:{msg['content']}\n") # must add \n else will all in one line
+                f.write(f"[{msg['time']}] {msg['role']}:{msg['content']}\n") # must add \n else will all in one line

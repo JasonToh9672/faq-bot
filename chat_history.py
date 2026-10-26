@@ -16,4 +16,4 @@ class ChatHistory:
 
     def show(self):
         for msg in self.messages:
-            print(f"{msg['time']}:{msg['role']}:{msg['content']}")
+            print(f"{msg['time']} {msg['role']}:{msg['content']}")

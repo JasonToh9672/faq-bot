@@ -4,4 +4,4 @@ password|Click "Forgot password" on the login page to reset it.
 delivery|Delivery takes 3-5 working days within Malaysia.
 support|Our customer support team is available 24/7 via live chat.
 account|You can update your personal details in the Account Settings page.
-   payment|We accept online banking, credit cards, and Touch 'n Go eWallet.
+payment|We accept online banking, credit cards, and Touch 'n Go eWallet.

@@ -11,9 +11,27 @@ A terminal chatbot that answers user questions using a FAQ file.
 
 ## How to run
 
+1. Clone the repo and enter the folder
+```bash
+git clone https://github.com/JasonToh9672/faq-bot
+cd faq-bot
 ```
+2. Create a virtual environmentKvKV
+```bash
 python -m venv .venv
+```
+3. Activate it 
+
+**For Windows**
+```bash
 .venv\Scripts\activate
+```
+**For Mac or Linux**
+```bash
+source .venv/bin/activate
+```
+4. Install the packages and run
+```bash
 python -m pip install -r requirements.txt
 python main.py
 ```
