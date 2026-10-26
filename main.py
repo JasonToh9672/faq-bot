@@ -6,6 +6,7 @@ console = Console()
 
 if __name__ == "__main__":
     bot = FAQBot("faq.txt", "Toh")
+    bot.load_log("log.json")
     while True:
         question = console.input("[green]You:[/green] ").strip()
         if question.lower() == "quit":
@@ -18,4 +19,4 @@ if __name__ == "__main__":
     bot.history.show()
     print(f"Total messages: {bot.history.count()}")
 
-    bot.save_log("log.txt")
+    bot.save_log("log.json")

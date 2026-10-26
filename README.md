@@ -6,7 +6,7 @@ A terminal chatbot that answers user questions using a FAQ file.
 
 - Answers questions by finding keywords from `faq.txt`
 - Shows the full chat history and the total message count when the user types "quit"
-- Saves every message to `log.txt` with its time, role, and content
+- Saves every message to `log.json` with its time, role, and content
 - Coloured terminal output using the `rich` library
 
 ## How to run
@@ -16,7 +16,7 @@ A terminal chatbot that answers user questions using a FAQ file.
 git clone https://github.com/JasonToh9672/faq-bot
 cd faq-bot
 ```
-2. Create a virtual environmentKvKV
+2. Create a virtual environment
 ```bash
 python -m venv .venv
 ```
