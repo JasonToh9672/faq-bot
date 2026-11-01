@@ -12,7 +12,7 @@ class FAQBot:
             with open(path, "r", encoding="utf-8") as f:
                 for line in f:
                     if line.strip() != "": #strip will remove whitespace and \n
-                        pair = line.strip().split("|")
+                        pair = line.strip().split("|") # split the line into a list based on "|"
                         file_dict[pair[0]] = pair[1]
         except FileNotFoundError:
             print(f"The file on {path} does not exist.")
@@ -20,7 +20,7 @@ class FAQBot:
 
     def find_answer(self, question):
         question = question.lower().strip()
-        for key in self.faq: # Using "in" with Dictionaries only checks the keys, not the values.
+        for key in self.faq: # Using "in" with Dictionaries only checks the keys like "refund","delivery" , not the values.
             if key in question:
                 return self.faq[key]
         return "Sorry, I don't know the answer to that."
@@ -38,8 +38,7 @@ class FAQBot:
     def load_log(self, path):
         try:
             with open(path, "r", encoding="utf-8") as f:
-                loaded = json.load(f)
-                self.history.messages = loaded
+                self.history.messages = json.load(f)
         except FileNotFoundError:
             self.history.messages = [] # if no initial log file, remain as empty list
         except json.JSONDecodeError as e:
