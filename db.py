@@ -40,6 +40,29 @@ def create_tables():
         """)
         cursor.execute("CREATE INDEX IF NOT EXISTS idx_messages_user_id ON messages (user_id)")
 
+def create_user(username, hashed_password):
+    try:
+        with get_connection() as connection:
+            cursor = connection.cursor()
+            cursor.execute(
+                "INSERT INTO users (username, hashed_password) VALUES (%s, %s) RETURNING id",
+                (username, hashed_password),
+            )
+            return cursor.fetchone()[0]          # the new user's id
+    except psycopg.errors.UniqueViolation:       # the username is already taken (UNIQUE)
+        return None
+
+def get_user_by_username(username):
+    with get_connection() as connection:
+        cursor = connection.cursor()
+        cursor.execute(
+            "SELECT id, username, hashed_password FROM users WHERE username = %s",
+            (username,),
+        )
+        row = cursor.fetchone()          # a tuple like (1, 'toh', '$argon2id$...'), or None
+    if row is None:                      # no user with that name
+        return None
+    return {"id": row[0], "username": row[1], "hashed_password": row[2]}   # tuple → dict
 
 if __name__ == "__main__":
     create_tables()
