@@ -1,8 +1,8 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import Depends, FastAPI, HTTPException
 from pydantic import BaseModel, Field
 
 import db                                                  # the whole module: db.create_user(...)
-from auth import DUMMY_HASH, create_access_token, password_hash
+from auth import DUMMY_HASH, create_access_token, get_current_user, password_hash
 from faq_bot import FAQBot
 
 bot = FAQBot("faq.txt", "api")
@@ -44,18 +44,27 @@ def login(request: LoginRequest):
     token = create_access_token(user["id"])                            # the ID goes into the token
     return {"access_token": token, "token_type": "bearer"}
 
-    
+@app.get("/me")
+def read_me(current_user: dict = Depends(get_current_user)):
+    return current_user                                     # {"id": ..., "username": ...}, no hash
+
+
 @app.post("/ask")
-def create_ask(ask: AskRequest):
-    answer = bot.ask(ask.question)
-    return {"question": ask.question, "answer": answer} # return in dictionary and fastapi will convert into JSON
+def create_ask(ask: AskRequest, current_user: dict = Depends(get_current_user)):
+    answer = bot.find_answer(ask.question)                  # ONLY find the answer (no memory history)
+    db.add_message(current_user["id"], "user", ask.question)        # save the question for THIS user
+    db.add_message(current_user["id"], "assistant", answer)         # save the answer for THIS user
+    return {"question": ask.question, "answer": answer}
+
 
 @app.get("/faq")
 def list_faq():
-    return list(bot.faq) # because faq already is load_faq(faq_path) and list() already filter only dict keys
+    return list(bot.faq)                                    # public: no Depends
+# because faq already is load_faq(faq_path) and list() already filter only dict keys
 
 @app.get("/history")
-def list_history():
-    return bot.history.messages
+def list_history(current_user: dict = Depends(get_current_user)):
+    return db.get_messages(current_user["id"])              # only THIS user's messages
+
 
 
