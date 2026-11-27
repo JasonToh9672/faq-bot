@@ -108,12 +108,13 @@ def test_faq_is_public(client):
     assert "refund" in response.json()
 
 
-def test_login_non_exists_user_returns_401(client):
-    response = client.post("/login", json={"username": "Ali", "password": "secret123"})
+def test_login_unknown_user_returns_401(client):
+    response = client.post("/login", json={"username": "nobody", "password": "secret123"})
     assert response.status_code == 401
-    assert response.json() == {"detail": "Incorrect username or password"}
+    assert response.json() == {"detail": "Incorrect username or password"}   # same message as a wrong password
+
 
 def test_history_without_token_returns_401(client):
     response = client.get("/history")
     assert response.status_code == 401
-    assert response.json() == {"detail": "Not authenticated"}
+    assert response.json() == {"detail": "Not authenticated"}                # from HTTPBearer (the first guard)
