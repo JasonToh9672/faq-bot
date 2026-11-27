@@ -1,5 +1,7 @@
 # FAQ Bot
 
+[![Tests](https://github.com/JasonToh9672/faq-bot/actions/workflows/tests.yml/badge.svg)](https://github.com/JasonToh9672/faq-bot/actions/workflows/tests.yml)
+
 A chatbot that answers questions using a FAQ file. It runs in two ways: as a terminal chat app, or as a web API built with FastAPI.
 
 ## Features
