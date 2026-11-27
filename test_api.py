@@ -106,3 +106,14 @@ def test_faq_is_public(client):
     response = client.get("/faq")
     assert response.status_code == 200
     assert "refund" in response.json()
+
+
+def test_login_non_exists_user_returns_401(client):
+    response = client.post("/login", json={"username": "Ali", "password": "secret123"})
+    assert response.status_code == 401
+    assert response.json() == {"detail": "Incorrect username or password"}
+
+def test_history_without_token_returns_401(client):
+    response = client.get("/history")
+    assert response.status_code == 401
+    assert response.json() == {"detail": "Not authenticated"}
