@@ -4,7 +4,6 @@ on: push
 
 jobs:
   test:
-    runs-on:
     runs-on: ubuntu-latest
 
     services:                              # extra programs GitHub starts BEFORE the steps run
