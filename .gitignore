@@ -3,3 +3,4 @@ __pycache__/
 log.json
 .env
 client.py
+.pytest_cache/

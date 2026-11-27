@@ -1,0 +1,44 @@
+name: Tests
+
+on: push
+
+jobs:
+  test:
+    runs-on:
+    runs-on: ubuntu-latest
+
+    services:                              # extra programs GitHub starts BEFORE the steps run
+      postgres:
+        image: postgres:18                 # the official PostgreSQL 18 Docker image (Session 19!)
+        env:
+          POSTGRES_USER: postgres          # the username (if left out, it defaults to "postgres")
+          POSTGRES_PASSWORD: postgres      # the password for this throwaway database
+          POSTGRES_DB: faqbot_test         # create this database when it starts
+        ports:
+          - 5432:5432                      # LAPTOP:CONTAINER, the same -p idea from Docker
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+
+    steps:
+      - name: Get the code
+        uses: actions/checkout@v7
+
+      - name: Install Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.13"
+
+      - name: Install libpq (PostgreSQL's connection library, used by psycopg)
+        run: sudo apt-get update && sudo apt-get install -y libpq5
+
+      - name: Install packages
+        run: python -m pip install -r requirements.txt
+
+      - name: Run tests
+        env:                               # environment variables for THIS step (no .env on GitHub!)
+          TEST_DATABASE_URL: postgresql://postgres:postgres@localhost:5432/faqbot_test
+          SECRET_KEY: ci-only-test-key-not-used-anywhere-else-0123456789
+        run: python -m pytest -v
